@@ -1,11 +1,7 @@
 # SystemyOperacyjne15
 
-Repozytorium zawiera pracownie pisane na zaliczenie przedmiotu Systemy Operacyjne na II UWr.
+## Pracownia 1
 
-Aby zbudować i uruchomić program:
+Program inicjalizuje dwa wątki wykonujące (void drinkBeerMyThread()) znany przebój programistyczny "99 beers".
 
-```
-cd PracowniaX && make && make run
-```
-
-gdzie X jest numerem porządkowym danej pracowni.
+Napisane w C z użyciem biblioteki pthread. 
