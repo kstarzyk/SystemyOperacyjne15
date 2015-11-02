@@ -2,6 +2,7 @@
 #include <pthread.h>
 #include <string.h>
 
+pthread_t tid[2];
 
 void* drinkBeerMyThread(void *arg)
 {
