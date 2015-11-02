@@ -35,6 +35,9 @@ int main(void)
 
         i++;
     }
+    
+    pthread_join(tid[0], NULL);
+    pthread_join(tid[1], NULL);
 
     sleep(2); // give some time for get things done
     return 0;
