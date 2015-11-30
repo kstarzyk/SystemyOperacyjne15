@@ -5,16 +5,19 @@
 #include <sched.h>
 #include <ctype.h>
 #include <pthread.h>
+#include <time.h>
 #include <semaphore.h>
 #include <unistd.h>
 
 /*== CONSTANTS ==*/
 #define N 5
-#define MAX_THINK_TIME 100000
+#define MAX_THINK_TIME 20000
 #define MAX_EAT_TIME  100000
+#define MAX_WAIT_TIME 5000
 
 /*== MACROS ==*/
 #define wait sem_wait
+#define timewait sem_timedwait
 #define post sem_post
 #define init sem_init
 #define join pthread_join
@@ -42,10 +45,15 @@ void eat(int pid)
     usleep(rand() % MAX_EAT_TIME);
 }
 
+
+
 void *_2bOrNot2b(void *arg)
 {
     int pid = *((int *)(arg));
     int fork;
+    
+    struct timespec x;
+    x.tv_nsec = MAX_WAIT_TIME;
 
     while (1) // Filozofowie biesiadują w nieskończoność
     {
@@ -55,7 +63,10 @@ void *_2bOrNot2b(void *arg)
         wait(&forks[fork]);
         fprintf(stdout, "\t%s pick fork %d\n", names[pid], fork);
         fork = (pid+1) % N;
-        wait(&forks[fork]);
+        if(timewait(&forks[fork], &x) == -1) {
+            post(&forks[pid]);            
+            continue;
+        }
         fprintf(stdout, "\t%s pick fork %d\n", names[pid], fork);
 
         eat(pid);
@@ -66,6 +77,7 @@ void *_2bOrNot2b(void *arg)
         fork = pid;
         post(&forks[fork]);
         fprintf(stdout, "\t%s released fork %d\n", names[pid], fork);
+
 
     }
 
