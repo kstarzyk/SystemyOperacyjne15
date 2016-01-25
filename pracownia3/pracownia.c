@@ -9,8 +9,9 @@
 #define KSS_BUFF_SIZE 64
 #define KSS_DELIMITERS " \t\r\n\a"
 
+// Macros
+#define FAILURE exit(EXIT_FAILURE)
 // Config
-
 char *USER = "kstarzyk";
 int VERBOSE = 1;
 
@@ -75,7 +76,7 @@ char **KSS_tokenize(char *line)
 
     if (!tokens) {
         fprintf(stderr, "KSS: allocation error\n");
-        exit(EXIT_FAILURE);
+        FAILURE;
     }
 
     token = strtok(line, KSS_DELIMITERS);
@@ -88,7 +89,7 @@ char **KSS_tokenize(char *line)
             tokens = realloc(tokens, bufsize * sizeof(char*));
             if (!tokens) {
                 fprintf(stderr, "KSS: allocation error\n");
-                exit(EXIT_FAILURE);
+                FAILURE;
             }
         }
 
