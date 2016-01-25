@@ -130,7 +130,7 @@ void KSS_loop(void)
         line = KSS_read_line();
         args = KSS_tokenize(line);
         status = KSS_execute(args);
-
+	    getcwd(DIR, sizeof(DIR));
         free(line);
         free(args);
     }
